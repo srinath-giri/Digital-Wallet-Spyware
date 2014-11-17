@@ -7,6 +7,15 @@
         android:icon="@drawable/ic_launcher"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        <meta-data
+            android:name="xposedmodule"
+            android:value="true" />
+        <meta-data
+            android:name="xposeddescription"
+            android:value="Module which leaks NFC HCE Communication" />
+        <meta-data
+            android:name="xposedminversion"
+            android:value="54" />
         <activity
             android:name=".Home"
             android:label="@string/app_name" >
