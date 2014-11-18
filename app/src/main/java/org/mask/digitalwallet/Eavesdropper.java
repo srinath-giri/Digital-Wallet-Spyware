@@ -16,7 +16,7 @@ public class Eavesdropper implements IXposedHookLoadPackage {
         if (!lpparam.packageName.equals("com.android.nfc"))
             return;
 
-        XposedBridge.log("We are in NFC!");
+        XposedBridge.log("NFC HCE has been enabled!");
 
         XposedHelpers.findAndHookMethod("com.android.nfc.cardemulation.HostEmulationManager", lpparam.classLoader, "onHostEmulationData", new XC_MethodHook() {
             @Override
