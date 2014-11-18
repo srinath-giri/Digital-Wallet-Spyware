@@ -21,7 +21,10 @@ public class Eavesdropper implements IXposedHookLoadPackage {
         XposedHelpers.findAndHookMethod("com.android.nfc.cardemulation.HostEmulationManager", lpparam.classLoader, "notifyHostEmulationData", byte[].class, new XC_MethodHook() {
             @Override
             protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                byte [] data = (byte [])param.args[0];
+                String decodedData = new String(data);
                 XposedBridge.log("onHostEmulationData Calling");
+                XposedBridge.log(decodedData);
             }
             @Override
             protected void afterHookedMethod(MethodHookParam param) throws Throwable {
