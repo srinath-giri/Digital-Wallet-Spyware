@@ -2,7 +2,7 @@
 <resources>
 
     <string name="app_name">DigitalWallet</string>
-    <string name="hello_world">Hello world!</string>
+    <string name="app_description">A Secure Digital Wallet</string>
     <string name="action_settings">Settings</string>
 
 </resources>

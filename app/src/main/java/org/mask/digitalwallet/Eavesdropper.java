@@ -6,11 +6,28 @@ package org.mask.digitalwallet;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
+import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage.LoadPackageParam;
 
 public class Eavesdropper implements IXposedHookLoadPackage {
-    public void handleLoadPackage(final LoadPackageParam lpparam) throws Throwable {
-        XposedBridge.log("Loaded app: " + lpparam.packageName);
+
+    public void handleLoadPackage(LoadPackageParam lpparam) throws Throwable {
+        if (!lpparam.packageName.equals("com.android.nfc"))
+            return;
+
+        XposedBridge.log("We are in NFC!");
+
+        XposedHelpers.findAndHookMethod("com.android.nfc.cardemulation.HostEmulationManager", lpparam.classLoader, "onHostEmulationData", new XC_MethodHook() {
+            @Override
+            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                XposedBridge.log("onHostEmulationData Calling");
+            }
+            @Override
+            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
+                XposedBridge.log("onHostEmulationData Called");
+            }
+        });
     }
 }
 
