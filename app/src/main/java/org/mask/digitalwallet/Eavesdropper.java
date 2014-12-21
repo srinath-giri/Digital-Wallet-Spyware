@@ -4,8 +4,6 @@ package org.mask.digitalwallet;
  * Created by eagleone on 11/15/14.
  */
 
-import android.os.Message;
-
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XC_MethodHook;
@@ -20,33 +18,26 @@ public class Eavesdropper implements IXposedHookLoadPackage {
 
         XposedBridge.log("NFC HCE has been enabled!");
 
-        XposedHelpers.findAndHookMethod("com.android.nfc.cardemulation.HostEmulationManager", lpparam.classLoader, "notifyHostEmulationData", byte[].class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                byte[] data = (byte[]) param.args[0];
-                XposedBridge.log("com.android.nfc.cardemulation.HostEmulationManager onHostEmulationData Calling");
-                XposedBridge.log(bytesToHexString(data,0,data.length));
-            }
+        XposedHelpers.findAndHookMethod("com.android.nfc.cardemulation.HostEmulationManager",
+                lpparam.classLoader, "notifyHostEmulationData", byte[].class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        byte[] data = (byte[]) param.args[0];
+                        XposedBridge.log("com.android.nfc.cardemulation.HostEmulationManager " +
+                                "onHostEmulationData Calling");
+                        XposedBridge.log(bytesToHexString(data, 0, data.length));
+                    }
+                });
 
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                //XposedBridge.log("onHostEmulationData Called");
-            }
-        });
-
-        XposedHelpers.findAndHookMethod("com.android.nfc.NfcService", lpparam.classLoader, "sendData",  byte[].class, new XC_MethodHook() {
-            @Override
-            protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
-                byte[] data = ( byte[] ) param.args[0];
-                XposedBridge.log("com.android.nfc.NfcService sendData Calling");
-                XposedBridge.log(bytesToHexString(data,0,data.length));
-            }
-
-            @Override
-            protected void afterHookedMethod(MethodHookParam param) throws Throwable {
-                //XposedBridge.log("com.android.nfc.NfcService sendData Called");
-            }
-        });
+        XposedHelpers.findAndHookMethod("com.android.nfc.NfcService",
+                lpparam.classLoader, "sendData", byte[].class, new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        byte[] data = (byte[]) param.args[0];
+                        XposedBridge.log("com.android.nfc.NfcService sendData Calling");
+                        XposedBridge.log(bytesToHexString(data, 0, data.length));
+                    }
+                });
     }
 
 
